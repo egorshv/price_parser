@@ -34,7 +34,7 @@ def main():
                 user_id=user_id
             )
             db.session.add(msg)
-            db.session.commit()
+        db.session.commit()
 
 
 if __name__ == '__main__':
