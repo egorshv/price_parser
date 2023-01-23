@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, abort, flash
 from werkzeug.security import check_password_hash
-from flask_login import current_user, login_user, login_required
+from flask_login import current_user, login_user, login_required, logout_user
 from forms import LoginForm, RegistrationForm, NewItemForm
 from main import app, login_manager
 from models import db, Item, User
@@ -77,6 +77,13 @@ def delete_item(id):
 @login_manager.unauthorized_handler
 def unauthorized():
     return render_template('unauthorized.html')
+
+
+@app.route('/log_out', methods=['GET', 'POST'])
+@login_required
+def log_out():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
