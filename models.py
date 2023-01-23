@@ -11,9 +11,11 @@ class Item(db.Model):
     product = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    url = db.Column(db.String(1000), nullable=False)
+    prices = db.relationship('ProductPrice', backref='item', lazy='dynamic')
 
     def __repr__(self):
-        return f'Item {self.id}'
+        return f'{self.product}'
 
 
 class User(db.Model, UserMixin):
@@ -31,6 +33,17 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'{self.email}'
+
+
+class ProductPrice(db.Model):
+    __tablename__ = 'product_prices'
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return f'{self.item_id} | {self.price} | {self.date}'
 
 
 @login_manager.user_loader
