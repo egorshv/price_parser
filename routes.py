@@ -3,8 +3,9 @@ from werkzeug.security import check_password_hash
 from flask_login import current_user, login_user, login_required
 from forms import LoginForm, RegistrationForm, NewItemForm
 from main import app, login_manager
-from models import db, Item, User
+from models import db, Item, User, ProductPrice
 from parser import parse_url
+from datetime import datetime
 
 
 @app.route('/sign_up', methods=['GET', 'POST'])
@@ -54,11 +55,19 @@ def index():
                 service=service,
                 product=product,
                 price=price,
-                user_id=current_user.id
+                user_id=current_user.id,
+                url=url
             )
             db.session.add(item)
             db.session.commit()
             add_form.field.data = ''
+            product_price = ProductPrice(
+                item_id=item.id,
+                price=price,
+                date=datetime.now()
+            )
+            db.session.add(product_price)
+            db.session.commit()
         else:
             flash('invalid url')
     data = db.session.query(Item).filter_by(user_id=current_user.id).all()
