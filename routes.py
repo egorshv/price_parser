@@ -95,6 +95,12 @@ def settings():
     return render_template('settings.html', form=form, title='Settings')
 
 
+@app.route('/chart')
+@login_required
+def chart():
+    return render_template('chart.html')
+
+
 @login_manager.unauthorized_handler
 def unauthorized():
     return render_template('unauthorized.html')
