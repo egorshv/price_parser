@@ -2,6 +2,7 @@ import schedule
 from parser import parse_url
 from main import db
 from models import Item, ProductPrice, Message, User
+from datetime import datetime
 
 
 def main():
@@ -13,6 +14,14 @@ def main():
             last_price = db.session.query(ProductPrice).filter_by(item_id=item.id).order_by(
                 ProductPrice.id.desc()).first().price
             current_price = parse_url(item.url)[2]
+            if last_price != current_price:
+                price = ProductPrice(
+                    item_id=item.id,
+                    price=current_price,
+                    date=datetime.now()
+                )
+                db.session.add(price)
+                db.session.commit()
             if int(last_price) > int(current_price):
                 messages.append(f'Цена на {item.product} снизилась c {last_price} до {current_price}')
             elif int(last_price) < int(current_price):
