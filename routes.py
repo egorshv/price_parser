@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort, flash
 from werkzeug.security import check_password_hash
 from flask_login import current_user, login_user, login_required, logout_user
-from forms import LoginForm, RegistrationForm, NewItemForm
+from forms import LoginForm, RegistrationForm, NewItemForm, GetNotifForm
 from main import app, login_manager
 from models import db, Item, User, ProductPrice
 from parser import parse_url
@@ -17,7 +17,8 @@ def sign_up():
             flash('email is already taken')
         else:
             user = User(
-                email=form.email.data
+                email=form.email.data,
+                get_notifications=False
             )
             user.set_password(form.password.data)
             db.session.add(user)
@@ -81,6 +82,17 @@ def delete_item(id):
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form = GetNotifForm()
+    if form.validate_on_submit():
+        user = User.query.get(current_user.id)
+        user.get_notifications = form.notification.data
+        db.session.commit()
+    return render_template('settings.html', form=form, title='Settings')
 
 
 @login_manager.unauthorized_handler

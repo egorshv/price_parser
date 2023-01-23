@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, EqualTo, Email
 
@@ -22,3 +22,8 @@ class LoginForm(FlaskForm):
 class NewItemForm(FlaskForm):
     field = StringField('New item', validators=[DataRequired()])
     submit = SubmitField('Add')
+
+
+class GetNotifForm(FlaskForm):
+    notification = BooleanField('Get notifications')
+    submit = SubmitField('Save')
