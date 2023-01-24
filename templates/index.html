@@ -18,14 +18,7 @@
           <td>{{ item.product }}</td>
           <td>{{ item.price }}</td>
           <td>
-            <a class="btn btn-danger" id="delete" role="button" href="#">Delete</a>
-            <script type="text/javascript">
-                document.getElementById("delete").onclick = function() {
-                  var result = document.getElementById("result").innerHTML;
-                  var link = document.getElementById("delete");
-                  link.href = "/delete_item/"+result;
-                };
-            </script>
+            <a class="btn btn-danger" id="delete" role="button" href="/delete_item/{{ item.id }}">Delete</a>
           </td>
         </tr>
       {% endfor %}
@@ -45,7 +38,10 @@
     </div>
     <a href="/log_out">log out</a> <br>
     <a href="/settings">settings</a>
-
+    {% for item in data %}
+        <br>
+        <a class="btn btn-primary" id="chart{{ item.id }}" role="button" href="/chart/{{ item.id }}">Chart for {{ item.product }}</a>
+    {% endfor %}
 {% endblock %}
 {% block scripts %}
   <script>

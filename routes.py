@@ -78,6 +78,10 @@ def index():
 @app.route('/delete_item/<int:item_id>')
 @login_required
 def delete_item(item_id):
+    product_prices = db.session.query(ProductPrice).filter_by(item_id=item_id).all()
+    for price in product_prices:
+        db.session.delete(price)
+    db.session.commit()
     item = Item.query.get(item_id)
     db.session.delete(item)
     db.session.commit()
@@ -95,10 +99,13 @@ def settings():
     return render_template('settings.html', form=form, title='Settings')
 
 
-@app.route('/chart')
+@app.route('/chart/<int:item_id>')
 @login_required
-def chart():
-    return render_template('chart.html')
+def chart(item_id):
+    data = db.session.query(ProductPrice).filter_by(item_id=item_id).all()
+    prices = [i.price for i in data]
+    dates = [i.date.strftime('%d-%m') for i in data]
+    return render_template('chart.html', prices=prices, dates=dates)
 
 
 @login_manager.unauthorized_handler
