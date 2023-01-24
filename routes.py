@@ -39,7 +39,7 @@ def login():
             return redirect(url_for('index'))
         else:
             return abort(400)
-    return render_template('login.html', title='login', form=form)
+    return render_template('login.html', title='Log In', form=form)
 
 
 @app.route('/', methods=['GET', 'POST'])
