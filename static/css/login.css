@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+
+.login_form {
+    text-align: center;
+    margin-top: 150px;
+    height: 250px;
+    width: 200px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 30px;
+
+}
+
+#login * {
+    margin-top: 7px;
+}
+
+.main-login-button {
+    width: 90%;
+}

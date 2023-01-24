@@ -30,6 +30,8 @@ def parse_url(url):
         service, product, price = parse_yandex(url)
     else:
         return 'invalid url'
+    if price[-1] == '₽':
+        price = price[:-1]
     return service, product, price
 
 
@@ -50,8 +52,14 @@ def parse_ozon(url):
     with open('ozon_page.html', 'r', encoding='utf-8') as f:
         src = f.read()
     soup = BeautifulSoup(src, 'lxml')
-    product = soup.find('h1', class_='o6r').text
-    price = soup.find('div', attrs={'class': {'p1o', 'po3', 'op5'}}).find_all('span')[1].text
+    try:
+        product = soup.find('h1', class_='o6r').text
+    except Exception as e:
+        product = soup.find('h1', class_='so').text
+    try:
+        price = soup.find('div', attrs={'class': {'p1o', 'po3', 'op5'}}).find_all('span')[1].text
+    except Exception as e:
+        price = soup.find('span', attrs={'class': {'po6', 'p6o'}}).text
     return 'Ozon', product, price.replace('\u2009', '')[:-1]
 
 

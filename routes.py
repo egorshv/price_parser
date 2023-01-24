@@ -39,7 +39,7 @@ def login():
             return redirect(url_for('index'))
         else:
             return abort(400)
-    return render_template('login.html', title='login', form=form)
+    return render_template('login.html', title='Log In', form=form)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -75,10 +75,14 @@ def index():
     return render_template('index.html', title='Home', data=data, add_form=add_form)
 
 
-@app.route('/delete_item/<int:id>')
+@app.route('/delete_item/<int:item_id>')
 @login_required
-def delete_item(id):
-    item = Item.query.get(id)
+def delete_item(item_id):
+    product_prices = db.session.query(ProductPrice).filter_by(item_id=item_id).all()
+    for price in product_prices:
+        db.session.delete(price)
+    db.session.commit()
+    item = Item.query.get(item_id)
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for('index'))
@@ -93,6 +97,16 @@ def settings():
         user.get_notifications = form.notification.data
         db.session.commit()
     return render_template('settings.html', form=form, title='Settings')
+
+
+@app.route('/chart/<int:item_id>')
+@login_required
+def chart(item_id):
+    item = Item.query.get(item_id)
+    data = db.session.query(ProductPrice).filter_by(item_id=item_id).all()
+    prices = [i.price for i in data]
+    dates = [i.date.strftime('%d-%m') for i in data]
+    return render_template('chart.html', prices=prices, dates=dates, title=f'Chart for {item.product}')
 
 
 @login_manager.unauthorized_handler
