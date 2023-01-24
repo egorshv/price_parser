@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
-{% block content %}
 
-<form method="post" class="main-registration-form">
+{% block link %}
+<link rel="stylesheet" href="static/css/reg.css">
+{% endblock %}
+
+{% block content %}
+<div class="reg_form">
+    <h3>Sign Up</h3>
+    <form method="post" class="main-registration-form">
         {{ form.hidden_tag() }}
         <div class="form-group main-form-group">
             {{ form.email(id="email", class='main-registration-input', placeholder="Email") }}
@@ -20,5 +26,7 @@
         </div>
         {{ form.submit(class='main-registration-button') }}
     </form>
+</div>
+
 
 {% endblock %}

@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+
+.reg_form {
+    text-align: center;
+    margin-top: 150px;
+    height: 250px;
+    width: 200px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 30px;
+
+}
+
+.main-registration-form * {
+    margin-top: 7px;
+}
+
+.main-registration-button {
+    width: 90%;
+}

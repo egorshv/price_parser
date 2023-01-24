@@ -1,0 +1,6 @@
+.container-fluid * {
+    display: flex;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 20px;
+}
