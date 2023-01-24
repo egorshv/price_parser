@@ -75,10 +75,10 @@ def index():
     return render_template('index.html', title='Home', data=data, add_form=add_form)
 
 
-@app.route('/delete_item/<int:id>')
+@app.route('/delete_item/<int:item_id>')
 @login_required
-def delete_item(id):
-    item = Item.query.get(id)
+def delete_item(item_id):
+    item = Item.query.get(item_id)
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for('index'))
