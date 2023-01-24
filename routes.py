@@ -102,10 +102,11 @@ def settings():
 @app.route('/chart/<int:item_id>')
 @login_required
 def chart(item_id):
+    item = Item.query.get(item_id)
     data = db.session.query(ProductPrice).filter_by(item_id=item_id).all()
     prices = [i.price for i in data]
     dates = [i.date.strftime('%d-%m') for i in data]
-    return render_template('chart.html', prices=prices, dates=dates)
+    return render_template('chart.html', prices=prices, dates=dates, title=f'Chart for {item.product}')
 
 
 @login_manager.unauthorized_handler
