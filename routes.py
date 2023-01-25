@@ -38,7 +38,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         else:
-            return abort(400)
+            flash('Wrong username or password')
     return render_template('login.html', title='Log In', form=form)
 
 
