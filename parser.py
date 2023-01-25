@@ -84,6 +84,3 @@ def parse_yandex(url):
     product = soup.find('h1', attrs={'class': {'_1BWd_ _2OAAC undefined', 'cia-cs'}}).text
     price = soup.find('div', attrs={'class': {'_3NaXx', '_3kWlK'}}).find_all('span')[1].text
     return 'Yandex', product, price
-
-
-print(parse_dns('https://www.dns-shop.ru/product/0364bc6412e1ed20/156-noutbuk-dell-g15-5515-zelenyj/'))

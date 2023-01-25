@@ -1,16 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form method="post" class="main-registration-form">
-        {{ form.hidden_tag() }}
-        <div class="form-group main-form-group">
-            {{ form.notification() }} {{ form.notification.label }}
-            {% for error in form.notification.errors %}
-                <span class="main-registration-error">{{ error }}</span>
-            {% endfor %}
-        </div>
-        {{ form.submit() }}
-</form>
-<a href="/index">back</a>
 
 {% endblock %}

@@ -22,8 +22,3 @@ class LoginForm(FlaskForm):
 class NewItemForm(FlaskForm):
     field = StringField('New item', validators=[DataRequired()])
     submit = SubmitField('Add')
-
-
-class GetNotifForm(FlaskForm):
-    notification = BooleanField('Get notifications')
-    submit = SubmitField('Save')

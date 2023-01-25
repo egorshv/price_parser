@@ -23,7 +23,6 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
-    get_notifications = db.Column(db.Boolean, default=False)
     items = db.relationship('Item', backref='user', lazy='dynamic')
     messages = db.relationship('Message', backref='user', lazy='dynamic')
 
@@ -53,6 +52,14 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    sent = db.Column(db.Boolean, default=False)
+
+
+class BotAuth(db.Model):
+    __tablename__ = 'botauth'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    chat_id = db.Column(db.Integer, nullable=False)
 
 
 @login_manager.user_loader

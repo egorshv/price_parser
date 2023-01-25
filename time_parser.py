@@ -40,7 +40,7 @@ def main():
 
 
 if __name__ == '__main__':
-    schedule.every().minute.do(main)
+    schedule.every().day.at('11:00').do(main)
     while True:
         schedule.run_pending()
         time.sleep(1)
