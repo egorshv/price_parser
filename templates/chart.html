@@ -19,10 +19,10 @@
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['24-01', '25-01', '26-01', '27-01', '28-01'],
+      labels: {{ dates }},
       datasets: [{
         label: 'Price',
-        data: ['18890', '18890', '19000', '17000', '18500'],
+        data: {{ prices }},
         borderWidth: 4
       }]
     }
