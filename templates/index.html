@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block link %}
+<link rel="stylesheet" href="static/css/index.css">
+{% endblock %}
+
 {% block content %}
   <table id="data" class="table table-striped">
     <thead>
@@ -28,19 +32,18 @@
         <form method="post">
             {{ add_form.hidden_tag() }}
             <div class="form-group main-form-group">
-                {{ add_form.field(placeholder="New item") }}
+                {{ add_form.field(placeholder="New item", class='new_item') }}
                 {% for error in add_form.field.errors %}
                     <span>{{ error }}</span>
                 {% endfor %}
             </div>
-            {{ add_form.submit() }}
+            {{ add_form.submit(class='btn btn-primary') }}
       </form>
     </div>
-    <a href="/log_out">log out</a> <br>
-    <a href="/settings">settings</a>
+    <h3 class="chart_header">Charts</h3>
     {% for item in data %}
         <br>
-        <a class="btn btn-primary" id="chart{{ item.id }}" role="button" href="/chart/{{ item.id }}">Chart for {{ item.product }}</a>
+        <a class="btn btn-primary" id="chart_btn" role="button" href="/chart/{{ item.id }}">{{ item.product }}</a>
     {% endfor %}
 {% endblock %}
 {% block scripts %}
