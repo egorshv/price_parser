@@ -1,14 +1,13 @@
 from selenium import webdriver
-import time
 import os
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 
 
 def get_page(url, filename):
     options = webdriver.ChromeOptions()
-    user_agent = UserAgent()
-    options.add_argument(f'user-agent={user_agent.chrome}')
+    options.add_argument(
+        'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36')
     options.add_argument("--headless")
     driver = webdriver.Chrome(executable_path='C:\\Users\\shved\\PycharmProjects\\price_parser\\chromedriver.exe',
                               options=options)
@@ -85,3 +84,6 @@ def parse_yandex(url):
     product = soup.find('h1', attrs={'class': {'_1BWd_ _2OAAC undefined', 'cia-cs'}}).text
     price = soup.find('div', attrs={'class': {'_3NaXx', '_3kWlK'}}).find_all('span')[1].text
     return 'Yandex', product, price
+
+
+print(parse_dns('https://www.dns-shop.ru/product/0364bc6412e1ed20/156-noutbuk-dell-g15-5515-zelenyj/'))
