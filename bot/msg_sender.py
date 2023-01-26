@@ -79,7 +79,10 @@ async def send_new_messages():
     auth_users = db.session.query(BotAuth).all()
     for user in auth_users:
         messages = db.session.query(Message).filter_by(user_id=user.id, sent=False).all()
-        str_msgs = '\n'.join(messages)
+        str_msgs = '\n'.join([msg.message for msg in messages])
+        for msg in messages:
+            msg.sent = True
+            db.session.commit()
         await bot.send_message(user.chat_id, str_msgs)
 
 
