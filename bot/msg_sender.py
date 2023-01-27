@@ -9,7 +9,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters import Text
 from werkzeug.security import check_password_hash
 
-from main import db, TOKEN
+from main import db
+from config import TOKEN
 from models import User, Message, BotAuth
 from utils import Login
 
@@ -79,7 +80,10 @@ async def send_new_messages():
     auth_users = db.session.query(BotAuth).all()
     for user in auth_users:
         messages = db.session.query(Message).filter_by(user_id=user.id, sent=False).all()
-        str_msgs = '\n'.join(messages)
+        str_msgs = '\n'.join(list(filter(lambda x: x != 'no changes', [msg.message for msg in messages])))
+        for msg in messages:
+            msg.sent = True
+            db.session.commit()
         await bot.send_message(user.chat_id, str_msgs)
 
 
