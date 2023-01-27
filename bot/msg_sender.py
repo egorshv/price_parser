@@ -1,6 +1,8 @@
 import logging
+import time
 
 import aioschedule
+import schedule
 import asyncio
 
 from aiogram import Bot, Dispatcher, executor, types
@@ -10,6 +12,7 @@ from aiogram.dispatcher.filters import Text
 from werkzeug.security import check_password_hash
 
 from main import db
+from time_parser import main
 from config import TOKEN
 from models import User, Message, BotAuth
 from utils import Login
@@ -101,3 +104,7 @@ async def shutdown(dispatcher: Dispatcher):
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_shutdown=shutdown)
+    schedule.every().day.at('11:00').do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
